@@ -3,7 +3,7 @@
     <img id="logo" alt="meets logo" src="./assets/meets-logo.png">
     <div id="user-menu" class="flex-container horizontal center gap-1">
       <span v-if="loginState">{{user.name}}</span>
-      <a id="login-btn" v-if="!loginState">로그인</a>
+      <a id="login-btn" v-if="!loginState" @click="oauthSignIn">로그인</a>
       <div id="profile">
         <img alt="user profile" v-if="loginState" :src="user.profile">
         <img alt="default profile" v-if="!loginState" src="./assets/default-profile.png">
@@ -56,6 +56,32 @@ export default {
         this.user.profile = res.data.profileUrl;
       })
     },
+    oauthSignIn() {
+      console.log("oauthSignIn");
+      // Google's OAuth 2.0 endpoint for requesting an access token
+      var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+
+      // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+      var form = document.createElement('form');
+      form.setAttribute('method', 'GET'); // Send as a GET request.
+      form.setAttribute('action', oauth2Endpoint);
+
+      // Parameters to pass to OAuth 2.0 endpoint.
+      var params = require("./constant/google.json");
+
+      // Add form parameters as hidden input values.
+      for (var p in params) {
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', p);
+        input.setAttribute('value', params[p]);
+        form.appendChild(input);
+      }
+
+      // Add form to page and submit it to open the OAuth 2.0 endpoint.
+      document.body.appendChild(form);
+      form.submit();
+    }
   }
 }
 </script>
