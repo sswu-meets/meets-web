@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import axios from "axios"
-
 export default {
   name: 'App',
   components: {
@@ -28,33 +26,23 @@ export default {
         email: "",
         name: "",
         profile: "",
-      },
-      googleLoginUrl: "https://accounts.google.com/o/oauth2/v2/auth?client_id=207911921876-ee9ke7dmpgvnlnrha5kt1vvg9ki8o17a.apps.googleusercontent.com&redirect_uri=http://localhost:8081&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
+      }
     }
   },
+  mounted() {
+    this.setLoginState()
+  },
   methods: {
-    getLoginState() {
-      console.log("getLoginState() 실행");
-      axios
-      .get("/user/status")
-      .then(res => {
-        console.log(res);
-        this.loginState = res.data;
-        if (this.loginState) {
-          this.getUserInfo();
-        }
-      })
+    setLoginState() {
+      this.loginState = localStorage.getItem("login_state") ?? false;
+      if (this.loginState) {
+        this.setUserInfo();
+      }
     },
-    getUserInfo() {
-      console.log("getUserInfo 실행");
-      axios
-      .get("/user")
-      .then(res => {
-        console.log(res);
-        this.user.email = res.data.email;
-        this.user.name = res.data.name;
-        this.user.profile = res.data.profileUrl;
-      })
+    setUserInfo() {
+      this.user.email = localStorage.getItem("user_email");
+      this.user.name = localStorage.getItem("user_name");
+      this.user.profile = localStorage.getItem("user_profile")
     },
     oauthSignIn() {
       console.log("oauthSignIn");

@@ -1,10 +1,11 @@
 import { createApp } from 'vue'
 import { createWebHistory, createRouter } from 'vue-router';
+import axios from 'axios';
+
 import App from './App.vue'
 import Home from './components/Home.vue';
 import GoogleLogin from './controller/GoogleLogin.vue'
- 
-import axios from 'axios'
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -18,13 +19,15 @@ const router = createRouter({
             path : '/login/google',
             name : 'GoogleLogin',
             component : GoogleLogin,
-        }
+        },
     ]
 })
 
 
 const app = createApp(App);
-app.config.globalProperties.axios = axios;
 app.use(router);
+
+axios.defaults.baseURL = 'http://localhost:8080'; 
+axios.defaults.withCredentials = true;
 
 app.mount('#app');
