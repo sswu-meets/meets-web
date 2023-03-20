@@ -75,6 +75,11 @@ export default {
 </script>
 
 <style>
+:root {
+  --color-main-purple: #928FFF;
+  --color-sub-purple: #C6BDFF;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -85,6 +90,15 @@ p {
 
 button {
   border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+input:focus {
+  outline: none;
 }
 
 #app {
@@ -108,6 +122,7 @@ header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .flex-container {
@@ -157,6 +172,14 @@ header {
 
 .font-size-l {
   font-size: 30px;
+}
+
+.font-size-m {
+  font-size: 18px;
+}
+
+.font-size-s {
+  font-size: 14px;
 }
 
 header > #logo {

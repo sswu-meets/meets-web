@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import App from './App.vue'
 import Home from './components/Home.vue';
+import ScheduleCreate from './components/ScheduleCreate.vue';
 import GoogleLogin from './controller/GoogleLogin.vue'
 
 
@@ -19,6 +20,11 @@ const router = createRouter({
             path : '/login/google',
             name : 'GoogleLogin',
             component : GoogleLogin,
+        },
+        {
+            path : "/schedule",
+            name : 'ScheduleCreate',
+            component: ScheduleCreate,
         },
     ]
 })

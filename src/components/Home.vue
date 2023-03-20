@@ -6,8 +6,8 @@
       <span>을 위한 통합 및 공유형 서비스</span>
     </div>
     <div class="flex-container horizontal gap-2 center">
-      <button class="create-btn">새 모임 만들기 +</button>
-      <button class="create-btn">새 일정 만들기 +</button>
+      <router-link to="/schedule" class="purple-btn font-size-s">새 일정 만들기 +</router-link>
+      <button class="purple-btn">새 모임 만들기 +</button>
     </div>
     <img id="mockup-img" alt="service mockup" src="../assets/home-image.png">
   </div>
@@ -18,6 +18,8 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  methods: {
   }
 }
 </script>
@@ -32,7 +34,7 @@ export default {
 #greeting-msg-container {
   width: max-content;
   position: relative;
-  margin: 30px 0px;
+  margin-bottom: 30px;
 }
 
 #greeting-msg-container::before {
@@ -50,11 +52,15 @@ export default {
   z-index: 1;
 }
 
-.create-btn {
+.purple-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 240px;
   height: 40px;
   background-color: #DFDAFB;
   border-radius: 5px;
+  color: black;
 }
 
 #mockup-img {
