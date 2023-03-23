@@ -1,11 +1,13 @@
 <template>
   <header>
-    <img id="logo" alt="meets logo" src="./assets/meets-logo.png">
+    <router-link to="/">
+      <img id="logo" alt="meets logo" src="./assets/meets-logo.png">
+    </router-link>
     <div id="user-menu" class="flex-container horizontal center gap-1">
       <span v-if="loginState">{{user.name}}</span>
       <a id="login-btn" v-if="!loginState" @click="oauthSignIn">로그인</a>
       <div id="profile">
-        <img alt="user profile" v-if="loginState" :src="user.profile">
+        <img alt="user profile" v-if="loginState" :src="user.profile" referrerpolicy="no-referrer">
         <img alt="default profile" v-if="!loginState" src="./assets/default-profile.png">
       </div>
     </div>
@@ -182,7 +184,7 @@ header {
   font-size: 14px;
 }
 
-header > #logo {
+header a #logo {
   width: 90px;
 }
 
@@ -208,4 +210,24 @@ header > #user-menu > #profile {
 header > #user-menu > #profile > img{
   width: 100%;
 }
+
+.purple-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #DFDAFB;
+  border-radius: 5px;
+  color: black;
+}
+
+.purple-btn.btn-size-s {
+  width: 240px;
+  height: 40px;
+}
+
+.purple-btn.btn-size-m {
+  width: 400px;
+  height: 40px;
+}
+
 </style>

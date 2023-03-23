@@ -1,7 +1,13 @@
 <template>
     <div id="schedule-create">
-        <input type="text" placeholder="일정 이름" id="schedule-name" class="font-size-m">
-        <FullCalendar id="schedule-create-calendar" :options="calendarOptions" />
+        <input type="text" placeholder="일정 이름" id="schedule-name" class="font-size-m" v-model="scheduleName">
+        <div class="section">
+            <div class="section-header-container font-size-s">
+                <h2 class="font-size-s">날짜 & 시간</h2>
+                <span> *</span>
+            </div>
+            <FullCalendar id="schedule-create-calendar" :options="calendarOptions" />
+        </div>
     </div>
 </template>
   
@@ -30,17 +36,53 @@ export default {
                     center: 'title',
                     right: 'next'
                 },
-                events: [
-                ],
+                events: [],
                 titleFormat : function(date) {
                     return date.date.year +"년 "+(date.date.month +1)+"월"; 
                 },
                 validRange: {
                     start: new Date(),
                 },
+                dateClick: function(info) {
+                    document.querySelector('#schedule-create-calendar').dispatchEvent(new CustomEvent("dateClick", {
+                        detail: {
+                            date: info.date,
+                            dateStr: info.dateStr,
+                        }
+                    }));
+                }
             }
         }
     },
+    mounted() {
+        const $calendar = document.querySelector('#schedule-create-calendar');
+        $calendar.addEventListener('dateClick', (event) => this.dateClick(event.detail.date, event.detail.dateStr));
+        this.calendarOptions.events = [];
+    },
+    methods: {
+        dateClick(date, dateStr) {
+            if (this.calendarOptions.events.length == 1 && this.calendarOptions.events[0].start != dateStr) {
+                this.pushBackgourdEvent(this.calendarOptions.events.pop().start, dateStr);
+            } else {
+                this.calendarOptions.events = [];
+                this.pushBackgourdEvent(dateStr);
+            }
+
+        },
+        pushBackgourdEvent(start, end = null) {
+            let newEvent = new Object();
+            if (end != null) {
+                if (new Date(start) > new Date(end)) {
+                    [start, end] = [end, start]
+                }
+                newEvent.end = end
+                this.pushBackgourdEvent(end)
+            }
+            newEvent.start = start;
+            newEvent.display = 'background';
+            this.calendarOptions.events.push(newEvent);
+        },
+    }
 }
 </script>
 
@@ -53,8 +95,8 @@ export default {
     --fc-button-text-color: var(--color-main-purple);
     --fc-button-active-bg-color: transparent;
     --fc-button-active-border-color: transparent;
-    --fc-highlight-color: rgba(198,189,255,.4);
-    --fc-bg-event-color: var(--color-light-purple);
+    --fc-highlight-color: transparent;
+    --fc-bg-event-color: rgba(198,189,255,.4);
 }
 
 #schedule-create {
@@ -68,17 +110,29 @@ export default {
 #schedule-name {
     width: 100%;
     height: 40px;
-    background-color: transparent;
+    background: transparent !important;
     border: 0px;
     border-bottom: 2.5px solid var(--color-main-purple);
-    color: var(--color-main-purple);
+    color: var(--color-main-purple) !important;
+}
+
+#schedule-create .section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+#schedule-create .section h2 {
+    display: inline;
 }
 
 .fc {
+    width: 100%;
     height: 450px;
     background-color: white;  
     border-radius: 10px;
-    padding: 20px;
+    padding: 20px 25px;
 }
 
 .fc tbody tr {
@@ -94,7 +148,14 @@ export default {
 }
 
 .fc .fc-col-header {
-    height: 30px;
+    height: 30px !important;
+}
+
+.fc .fc-col-header .fc-scrollgrid-sync-inner{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .fc .fc-toolbar-title {
@@ -152,6 +213,7 @@ export default {
     width: 50px;
     height: 50px;
     background-color: var(--color-main-purple);
+    opacity: .5;
 }
 
 .fc .fc-scrollgrid-sync-table {
@@ -161,6 +223,10 @@ export default {
 .fc .fc-view-harness {
     height: 335px !important;
     flex-grow: 0;
+}
+
+.fc .fc-day-other .fc-daygrid-day-top {
+    z-index: 3;
 }
 
 </style>
