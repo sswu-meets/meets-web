@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createWebHistory, createRouter } from 'vue-router';
 import axios from 'axios';
+import store from "./store";
 
 import App from './App.vue'
 import Home from './components/Home.vue';
@@ -32,6 +33,7 @@ const router = createRouter({
 
 const app = createApp(App);
 app.use(router);
+app.use(store);
 
 axios.defaults.baseURL = 'http://localhost:8080'; 
 axios.defaults.withCredentials = true;

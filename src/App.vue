@@ -16,6 +16,9 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import {useStore} from "vuex"
+
 export default {
   name: 'App',
   components: {
@@ -23,29 +26,17 @@ export default {
   },
   data() {
     return {
-      loginState: false,
-      user: {
-        email: "",
-        name: "",
-        profile: "",
-      }
     }
   },
-  mounted() {
-    this.setLoginState()
+  setup () {
+    const store = useStore()
+
+    return {
+      user: computed(() => store.state.user),
+      loginState: computed(() => store.state.loginState),
+    }
   },
   methods: {
-    setLoginState() {
-      this.loginState = localStorage.getItem("login_state") ?? false;
-      if (this.loginState) {
-        this.setUserInfo();
-      }
-    },
-    setUserInfo() {
-      this.user.email = localStorage.getItem("user_email");
-      this.user.name = localStorage.getItem("user_name");
-      this.user.profile = localStorage.getItem("user_profile")
-    },
     oauthSignIn() {
       console.log("oauthSignIn");
       // Google's OAuth 2.0 endpoint for requesting an access token
@@ -80,6 +71,7 @@ export default {
 :root {
   --color-main-purple: #928FFF;
   --color-sub-purple: #C6BDFF;
+  --color-light-purple: #DFDDFD;
 }
 
 * {
