@@ -19,6 +19,12 @@ export default {
   props: {
     msg: String
   },
+  created() {
+    console.log("home created");
+  },
+  mounted() {
+    console.log("home mounted");
+  },
   methods: {
   }
 }
@@ -43,7 +49,7 @@ export default {
   position: absolute;
   width: 80px;
   height: 22px;
-  background-color: #DFDAFB;
+  background-color: var(--color-light-purple);
   z-index: 0;
   left: 57px;
 }
