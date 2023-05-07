@@ -12,12 +12,12 @@
       </div>
     </div>
   </header>
-  <router-view></router-view>
+  <router-view ></router-view>
 </template>
 
 <script>
 import { computed } from 'vue'
-import {useStore} from "vuex"
+import { useStore } from "vuex"
 
 export default {
   name: 'App',
@@ -70,8 +70,8 @@ export default {
 <style>
 :root {
   --color-main-purple: #928FFF;
-  --color-sub-purple: #C6BDFF;
-  --color-light-purple: #DFDDFD;
+  --color-sub-purple: #DFDAFB;
+  --color-light-purple: rgb(223, 218, 251, 0.3);
 }
 
 * {
@@ -96,19 +96,22 @@ input:focus {
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #F6F6F6;
   color: #2c3e50;
   padding: 20px 20px;
+  gap: 30px;
 }
 
 body {
   margin: 0px;
+  background-color: #F6F6F6;
 }
 
 header {
@@ -116,7 +119,14 @@ header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+}
+
+.max-w {
+  width: 100%;
+}
+
+.max-h {
+  height: 100%;
 }
 
 .flex-container {
@@ -150,6 +160,10 @@ header {
 
 .flex-container.a-end {
   align-items: flex-end;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
 }
 
 .gap-1 {
@@ -207,7 +221,7 @@ header > #user-menu > #profile > img{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #DFDAFB;
+  background-color: var(--color-sub-purple);
   border-radius: 5px;
   color: black;
 }
@@ -220,6 +234,13 @@ header > #user-menu > #profile > img{
 .purple-btn.btn-size-m {
   width: 400px;
   height: 40px;
+}
+
+.sub-purple-card {
+  background-color: var(--color-light-purple);
+  border: 1px solid var(--color-sub-purple);
+  border-radius: 5px;
+  padding: 20px;
 }
 
 </style>
