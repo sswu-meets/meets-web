@@ -1,6 +1,6 @@
 <template>
-  <div id="home" class="flex-container vertical a-center">
-    <div id="greeting-msg-container" class="font-size-l flex-container horizontal a-end gap-1">
+  <div id="home" class="flex-container vertical a-center flex-grow-1 gap-2">
+    <div id="greeting-msg-container" class="font-size-l flex-container horizontal j-center a-end gap-1">
       <span>오직</span>
       <span class="bold">'모임'</span>
       <span>을 위한 통합 및 공유형 서비스</span>
@@ -14,16 +14,20 @@
 </template>
 
 <script>
+import { computed } from "vue"
+import { useStore } from "vuex"
+
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
   },
-  created() {
-    console.log("home created");
-  },
-  mounted() {
-    console.log("home mounted");
+  setup () {
+    const store = useStore()
+
+    return {
+      user: computed(() => store.state.user),
+      loginState: computed(() => store.state.loginState),
+    }
   },
   methods: {
   }
@@ -33,14 +37,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #home {
-  height: calc(100vh - 55px);
+  width: 500px;
   overflow: hidden;
+  margin: auto;
+}
+
+#home div {
+  width: 100%;
 }
 
 #greeting-msg-container {
   width: max-content;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 #greeting-msg-container::before {
@@ -49,7 +58,7 @@ export default {
   position: absolute;
   width: 80px;
   height: 22px;
-  background-color: var(--color-light-purple);
+  background-color: var(--color-sub-purple);
   z-index: 0;
   left: 57px;
 }
@@ -59,7 +68,6 @@ export default {
 }
 
 #mockup-img {
-  width: 750px;
   margin-top: 50px;
 }
 

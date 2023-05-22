@@ -1,23 +1,25 @@
-<template>
+<template class="template">
   <header>
     <router-link to="/">
       <img id="logo" alt="meets logo" src="./assets/meets-logo.png">
     </router-link>
     <div id="user-menu" class="flex-container horizontal center gap-1">
-      <span v-if="loginState">{{user.name}}</span>
+      <span v-if="loginState">{{user.name}}님</span>
+      <span v-if="loginState">|</span>
       <a id="login-btn" v-if="!loginState" @click="oauthSignIn">로그인</a>
+      <a id="logout-btn" class="btn" v-if="loginState" @click="logout">로그아웃</a>
       <div id="profile">
         <img alt="user profile" v-if="loginState" :src="user.profile" referrerpolicy="no-referrer">
         <img alt="default profile" v-if="!loginState" src="./assets/default-profile.png">
       </div>
     </div>
   </header>
-  <router-view></router-view>
+  <router-view ></router-view>
 </template>
 
 <script>
 import { computed } from 'vue'
-import {useStore} from "vuex"
+import { useStore } from "vuex"
 
 export default {
   name: 'App',
@@ -34,23 +36,20 @@ export default {
     return {
       user: computed(() => store.state.user),
       loginState: computed(() => store.state.loginState),
+      logout: (accessToken) => store.dispatch('logout', accessToken),
     }
   },
   methods: {
     oauthSignIn() {
       console.log("oauthSignIn");
-      // Google's OAuth 2.0 endpoint for requesting an access token
       var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
 
-      // Create <form> element to submit parameters to OAuth 2.0 endpoint.
       var form = document.createElement('form');
       form.setAttribute('method', 'GET'); // Send as a GET request.
       form.setAttribute('action', oauth2Endpoint);
 
-      // Parameters to pass to OAuth 2.0 endpoint.
       var params = require("./constant/google.json");
 
-      // Add form parameters as hidden input values.
       for (var p in params) {
         var input = document.createElement('input');
         input.setAttribute('type', 'hidden');
@@ -59,7 +58,6 @@ export default {
         form.appendChild(input);
       }
 
-      // Add form to page and submit it to open the OAuth 2.0 endpoint.
       document.body.appendChild(form);
       form.submit();
     }
@@ -70,8 +68,9 @@ export default {
 <style>
 :root {
   --color-main-purple: #928FFF;
-  --color-sub-purple: #C6BDFF;
-  --color-light-purple: #DFDDFD;
+  --color-sub-purple: #DFDAFB;
+  --color-light-purple: rgb(223, 218, 251, 0.3);
+  --color-light-gray: #D9D9D9
 }
 
 * {
@@ -85,10 +84,13 @@ p {
 button {
   border: none;
   cursor: pointer;
+  background-color: transparent;
+  padding: 0px;
 }
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 input:focus {
@@ -96,27 +98,38 @@ input:focus {
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #F6F6F6;
   color: #2c3e50;
   padding: 20px 20px;
+  gap: 30px;
 }
 
 body {
   margin: 0px;
+  background-color: #F6F6F6;
 }
 
 header {
+  height: 40px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+}
+
+.max-w {
+  width: 100%;
+}
+
+.max-h {
+  height: 100%;
 }
 
 .flex-container {
@@ -140,6 +153,10 @@ header {
   justify-content: center;
 }
 
+.flex-container.j-between {
+  justify-content: space-between;
+}
+
 .flex-container.a-center {
   align-items: center;
 }
@@ -150,6 +167,10 @@ header {
 
 .flex-container.a-end {
   align-items: flex-end;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
 }
 
 .gap-1 {
@@ -176,6 +197,10 @@ header {
   font-size: 14px;
 }
 
+.btn {
+  cursor: pointer;
+}
+
 header a #logo {
   width: 90px;
 }
@@ -199,7 +224,7 @@ header > #user-menu > #profile {
   overflow: hidden;
 }
 
-header > #user-menu > #profile > img{
+#profile > img{
   width: 100%;
 }
 
@@ -207,7 +232,7 @@ header > #user-menu > #profile > img{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #DFDAFB;
+  background-color: var(--color-sub-purple);
   border-radius: 5px;
   color: black;
 }
@@ -220,6 +245,13 @@ header > #user-menu > #profile > img{
 .purple-btn.btn-size-m {
   width: 400px;
   height: 40px;
+}
+
+.sub-purple-card {
+  background-color: var(--color-light-purple);
+  border: 1px solid var(--color-sub-purple);
+  border-radius: 5px;
+  padding: 20px;
 }
 
 </style>
