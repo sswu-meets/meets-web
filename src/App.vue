@@ -1,11 +1,13 @@
-<template>
+<template class="template">
   <header>
     <router-link to="/">
       <img id="logo" alt="meets logo" src="./assets/meets-logo.png">
     </router-link>
     <div id="user-menu" class="flex-container horizontal center gap-1">
-      <span v-if="loginState">{{user.name}}</span>
+      <span v-if="loginState">{{user.name}}님</span>
+      <span v-if="loginState">|</span>
       <a id="login-btn" v-if="!loginState" @click="oauthSignIn">로그인</a>
+      <a id="logout-btn" class="btn" v-if="loginState" @click="logout">로그아웃</a>
       <div id="profile">
         <img alt="user profile" v-if="loginState" :src="user.profile" referrerpolicy="no-referrer">
         <img alt="default profile" v-if="!loginState" src="./assets/default-profile.png">
@@ -34,23 +36,20 @@ export default {
     return {
       user: computed(() => store.state.user),
       loginState: computed(() => store.state.loginState),
+      logout: (accessToken) => store.dispatch('logout', accessToken),
     }
   },
   methods: {
     oauthSignIn() {
       console.log("oauthSignIn");
-      // Google's OAuth 2.0 endpoint for requesting an access token
       var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
 
-      // Create <form> element to submit parameters to OAuth 2.0 endpoint.
       var form = document.createElement('form');
       form.setAttribute('method', 'GET'); // Send as a GET request.
       form.setAttribute('action', oauth2Endpoint);
 
-      // Parameters to pass to OAuth 2.0 endpoint.
       var params = require("./constant/google.json");
 
-      // Add form parameters as hidden input values.
       for (var p in params) {
         var input = document.createElement('input');
         input.setAttribute('type', 'hidden');
@@ -59,7 +58,6 @@ export default {
         form.appendChild(input);
       }
 
-      // Add form to page and submit it to open the OAuth 2.0 endpoint.
       document.body.appendChild(form);
       form.submit();
     }
@@ -72,6 +70,7 @@ export default {
   --color-main-purple: #928FFF;
   --color-sub-purple: #DFDAFB;
   --color-light-purple: rgb(223, 218, 251, 0.3);
+  --color-light-gray: #D9D9D9
 }
 
 * {
@@ -85,10 +84,13 @@ p {
 button {
   border: none;
   cursor: pointer;
+  background-color: transparent;
+  padding: 0px;
 }
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 input:focus {
@@ -115,6 +117,7 @@ body {
 }
 
 header {
+  height: 40px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -148,6 +151,10 @@ header {
 
 .flex-container.j-center {
   justify-content: center;
+}
+
+.flex-container.j-between {
+  justify-content: space-between;
 }
 
 .flex-container.a-center {
@@ -190,6 +197,10 @@ header {
   font-size: 14px;
 }
 
+.btn {
+  cursor: pointer;
+}
+
 header a #logo {
   width: 90px;
 }
@@ -213,7 +224,7 @@ header > #user-menu > #profile {
   overflow: hidden;
 }
 
-header > #user-menu > #profile > img{
+#profile > img{
   width: 100%;
 }
 

@@ -56,7 +56,10 @@ export default createStore({
       })
     },
     logout({commit}) {
-      commit("logout")
+      if (window.confirm("정말 로그아웃 하시겠습니까?")) {
+        commit("logout");
+        location.replace("/");
+      }
     },
     getScheduleList({commit, state}) {
       axios
