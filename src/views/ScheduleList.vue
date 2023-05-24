@@ -27,21 +27,30 @@ export default {
     },
     mounted() {
         this.updateScheduleList();
+        console.log(this.scheduleList);
     },
     methods: {
         updateScheduleList() {
             axios
             .get("/user/schedulelist")
             .then(res => {
+                console.log(res.data);
                 for (const schedule of res.data) {
                     this.scheduleList.push({
                         no: schedule.no,
                         name: schedule.scheduleName,
+                        fixStartDate: schedule.fixStartDate,
+                        fixEndDate: schedule.fixEndDate,
+                        startTime: schedule.startTime,
+                        endTime: schedule.endTime,
                         placeTuneState: schedule.placeTuneState,
                         dateTuneState: schedule.dateTuneState,
-                        meetingNo: schedule.meetingNo
+                        meetingNo: schedule.meetingNo,
+                        participants: schedule.participants
                     })
                 }
+                console.log(this.scheduleList[0].name);
+                console.log(this.scheduleList[0].participants);
             })
         },
     }
@@ -49,7 +58,9 @@ export default {
 </script>
 
 <style scoped>
-
+#schedule-list {
+    overflow: scroll;
+}
 
 </style>
   

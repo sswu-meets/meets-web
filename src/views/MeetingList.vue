@@ -31,7 +31,9 @@ export default {
 </script>
 
 <style scoped>
-
+#meeting-list {
+    overflow: scroll;
+}
 
 </style>
   

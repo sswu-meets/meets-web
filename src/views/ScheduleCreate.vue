@@ -103,7 +103,7 @@ export default {
                 console.log(this.calendarOptions.events[0].start);
                 axios
                 .post(
-                    "/schedule/tune",
+                    "/schedule/tune-range",
                     {
                         meetingNo: null,
                         scheduleName: this.scheduleName,
@@ -117,6 +117,9 @@ export default {
                 .then(res => {
                     console.log(res.data);
                     location.replace("/")
+                }).catch(err => {
+                    alert("저장 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                    console.log(err);
                 })
             }
         }

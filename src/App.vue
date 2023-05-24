@@ -136,6 +136,10 @@ header {
   display: flex;
 }
 
+.list-container {
+  overflow: hidden;
+}
+
 .horizontal.flex-container {
   flex-direction: row;
 }

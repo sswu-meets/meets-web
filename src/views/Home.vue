@@ -10,7 +10,7 @@
       <button class="purple-btn btn-size-s">새 모임 만들기 +</button>
     </div>
     <img v-if="!loginState" id="mockup-img" class="max-w" alt="service mockup" src="../assets/home-image.png">
-    <div v-if="loginState" class="flex-container horizontal flex-grow-1 gap-2 center">
+    <div v-if="loginState" class="flex-container list-container horizontal flex-grow-1 gap-2 center">
       <ScheduleList class="sub-purple-card max-w max-h"></ScheduleList>
       <MeetingList class="sub-purple-card max-w max-h"></MeetingList>
     </div>
@@ -43,7 +43,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #home {
   width: 500px;
@@ -77,6 +76,7 @@ export default {
 }
 
 #mockup-img {
+  width: 100%;
   margin-top: 50px;
 }
 
